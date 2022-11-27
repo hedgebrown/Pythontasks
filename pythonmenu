@@ -1,0 +1,99 @@
+import csv
+import numpy as np
+import matplotlib.pyplot as plt
+myFile=open('section1-students.csv', 'r')
+df=csv.reader(myFile)
+myList=[]
+for record in df:
+    myList.append(record)
+choice=0    
+while(choice!=5):
+        print("Main Menu")
+        print('1:Exam Scores')
+        print('2:Graphs')
+        print('3:Class Graph')
+        print('4:Output File')
+        print('5:Exit Program')
+        print("Select an Option:")
+        choice=int(input())
+        if choice==1:
+            subchoice=0
+            while(subchoice!=5):
+                print("Individual Student Exam Menu")
+                print('1.List All')
+                print('2.Average')
+                print('3.Low Score')
+                print('4.High Score')
+                print('5.Exit')
+                print("Select an Option:")
+                subchoice=int(input())
+                print("Provide abc123 of Student:")
+                s=input()
+                if subchoice==1:
+                    flag=0
+                    for i in range(len(df)):
+                        print(df.id[i],s)
+                        if df.id[i]==s:
+                            flag=1
+                            print("Exam Scores: NNN NNN NNN",df.exam_1[i],df.exam_2[i],df.exam_3[i])
+                    if flag==0:
+                        print("Not Found: provided_student_id")
+                elif subchoice==2:
+                    flag=0
+                    for i in range(len(df)):
+                        if df.id[i]==s:
+                            flag=1
+                            print("Student Average: NN.NN",(df.exam_1[i]+df.exam_2[i]+df.exam_3[i])/3)
+                    if flag==0:
+                        print("Not Found: provided_student_id")
+                elif subchoice==3:
+                    flag=0
+                    for i in range(len(df)):
+                        if df.id[i]==s:
+                            flag=1
+                            print("Low Score: NNN",min(df.exam_1[i],df.exam_2[i],df.exam_3[i]))
+                    if flag==0:
+                        print("Not Found: provided_student_id")
+                elif subchoice==4:
+                    flag=0
+                    for i in range (len(df)):
+                        if df.id[i]==s:
+                            flag=1
+                            print("High score: NNN",max(df.exam_1[i],df.exam_2[i],df.exam_3[i]))
+                    if flag==0:
+                        print("Not Found: provided_student_id")
+                elif subchoice==5:
+                    break
+                else:
+                    print("Invalid Input")                   
+        elif choice==2:
+                    print("This will provide a graph of exam scores.")
+                    print("Provide abc123 of Student:")
+                    s=input()
+                    flag=0
+                    for i in range(len(df)):
+                        if df.id[i]==s:
+                            flag=1
+                            x=['exam_1','exam_2','exam_3']
+                            y=[df.exam_1[i],df.exam_2[i],df.exam_3[i]]
+                            plt.xlabel('Exams')
+                            plt.ylabel('Scores')
+                            plt.legend(shadow=True, loc="upper right", label=(s))
+                            plt.plot(x, y)
+                            plt.show()
+                    if flag==0:
+                        print("Not Found: provided_student_id")
+        elif choice==3:
+                    print("Under Construction")
+                    continue
+        elif choice==4:
+                    for i in range(len(df)):
+                        file1 = open("Section1Results.txt","w")
+                        s=df.last_name[i]+","+df.first_name[i]+","+str((df.exam_1[i]+df.exam_2[i]+df.exam_3[i])/3)
+                        file1.write(s)
+                        print("Output File Created in home directory")
+        elif choice==5:
+                    print("Thank you. This program is brought to you by Python Expert:")
+                    break
+        else:
+            print("Invalid Input")
